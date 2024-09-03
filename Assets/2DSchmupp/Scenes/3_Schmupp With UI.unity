@@ -138,6 +138,10 @@ PrefabInstance:
       propertyPath: prefabToSpawn
       value: 
       objectReference: {fileID: 91699590074581141, guid: 1b34658f1aab67843ac732be674f69f1, type: 3}
+    - target: {fileID: -6961607931080608236, guid: 8557c79a277d6724cb2483600d19df11, type: 3}
+      propertyPath: spawnableWidth
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 4986564341372481862, guid: 8557c79a277d6724cb2483600d19df11, type: 3}
       propertyPath: m_RootOrder
       value: -1
@@ -299,6 +303,10 @@ PrefabInstance:
       propertyPath: prefabToSpawn
       value: 
       objectReference: {fileID: 5094786585168991904, guid: d1c62e4e09adc1d469402ce135013501, type: 3}
+    - target: {fileID: -6961607931080608236, guid: 8557c79a277d6724cb2483600d19df11, type: 3}
+      propertyPath: spawnableWidth
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 4986564341372481862, guid: 8557c79a277d6724cb2483600d19df11, type: 3}
       propertyPath: m_RootOrder
       value: -1
@@ -512,6 +520,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 755676566}
     m_Modifications:
+    - target: {fileID: -6961607931080608236, guid: 8557c79a277d6724cb2483600d19df11, type: 3}
+      propertyPath: spawnableWidth
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 4986564341372481862, guid: 8557c79a277d6724cb2483600d19df11, type: 3}
       propertyPath: m_RootOrder
       value: -1

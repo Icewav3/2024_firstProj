@@ -5,12 +5,17 @@ using UnityEngine;
 
 public class TrackingTurret : MonoBehaviour
 {
-    //TODO currently functions but need to think of a way to allow the aiming to lead targets
+    [SerializeField] private int cooldownTime = 10;
+    [SerializeField] private int activeTime = 5;
+    private bool active;
+    private bool abilityUseButton;
     private Transform target;
+    private float cooldownTimer = 0f;
+    private float ActiveTimer = 0f;
 
     public Rigidbody2D projectilePrefab;
 
-    public float fireRate = .3f;
+    public float fireRate = .1f;
     private float currentFireTimer = 0;
 
     public float shootForce = 1f;
@@ -23,11 +28,37 @@ public class TrackingTurret : MonoBehaviour
             Debug.LogWarning("Please give the " + gameObject.name + " PlayerShooter script a projectile reference");
         }
 
+        active = false;
         currentFireTimer = fireRate;
+        cooldownTimer = cooldownTime; //set ability active when game starts
     }
 
     void Update()
     {
+        if (!active) //if inactive do checks
+        {
+            cooldownTimer += Time.deltaTime; 
+            if (cooldownTimer < cooldownTime) //if ability isnt cooldown yet return
+            {
+                print("remaining cooldown: "+(cooldownTime-cooldownTimer));
+                return;
+            }
+            abilityUseButton = Input.GetKeyDown("1");
+            if (!abilityUseButton)
+            {
+                return;
+            }
+
+            cooldownTimer = 0f;
+            active = true;
+        }
+        ActiveTimer += Time.deltaTime;
+        if (ActiveTimer > activeTime) //if time up, reset ability
+        {
+            active = false;
+            ActiveTimer = 0f;
+            return;
+        }
         if (target == null)
         {
             GameObject[] enemies = GameObject.FindGameObjectsWithTag("EnemyUnit");
@@ -73,6 +104,7 @@ public class TrackingTurret : MonoBehaviour
     private void FireOneBullet(Vector2 direction)
     {
         Rigidbody2D rg = Instantiate<Rigidbody2D>(projectilePrefab, transform.position, Quaternion.identity);
+        Debug.DrawRay(this.transform.position, direction.normalized*100, Color.green, 1);
 
         rg.AddForce(direction.normalized * shootForce, ForceMode2D.Impulse);
         Destroy(rg.gameObject, bulletDeathTimer);

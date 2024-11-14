@@ -7,7 +7,9 @@ public class Spaceship_V2 : MonoBehaviour
 {
     //  Note: We will make variables private later on, for now public is simpler
     // T1. 
+    
     public Transform selfTransform;
+    //public Transform selfTransform;
     // T2 Input Cache - Let them figure out different ways. 
     public Vector2 input;
     // T3 Movement

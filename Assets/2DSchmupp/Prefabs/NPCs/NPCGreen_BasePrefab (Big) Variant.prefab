@@ -24,10 +24,6 @@ PrefabInstance:
       propertyPath: moveSideToSide
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 6316492519148678184, guid: addf86f2996143e43a3037b265c86272, type: 3}
-      propertyPath: startMoveForceY
-      value: -3
-      objectReference: {fileID: 0}
     - target: {fileID: 7161992183559241862, guid: addf86f2996143e43a3037b265c86272, type: 3}
       propertyPath: m_Name
       value: NPCGreen_BasePrefab (Big) Variant

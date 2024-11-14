@@ -47,7 +47,7 @@ GameObject:
   - component: {fileID: 5402023146870595058}
   m_Layer: 8
   m_Name: NPCRed_BasePrefab 1
-  m_TagString: EnemyUnit
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

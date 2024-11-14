@@ -31,6 +31,6 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate() {
 
-        physicsBody.AddForce(moveForce * directionalInput); // don't need the delta time here. 
+        physicsBody.AddForce(moveForce * directionalInput); // don't need the delta time in fixed update. 
     }
 }

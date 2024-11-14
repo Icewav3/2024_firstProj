@@ -5,13 +5,34 @@ using UnityEngine.UIElements;
 
 public class Spaceship : MonoBehaviour
 {
+    [SerializeField]
+    private float health;
+
+    public void Damage(float damage) {
+        health = health - damage;
+        if(health < 0) {
+            health = 0;
+            Death();
+        }
+               
+    }
+
+    public void Death() {
+        // Dies
+    }
+
+
+    // MOnoBeh
+
     //  Note: We will make variables private later on, for now public is simpler
     // T1. 
     public Transform selfTransform;
+
     // T2 Input Cache - Let them figure out different ways. 
     public Vector2 input;
+
     // T3 Movement
-    public float moveSpeed = 1f;
+    public float moveSpeed = 100f;
 
     // Reference to the Flaming Jet Trail
     // Using an actual object reference. 

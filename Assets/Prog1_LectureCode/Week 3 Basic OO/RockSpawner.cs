@@ -47,6 +47,8 @@ public class RockSpawner : MonoBehaviour
             int newArraySize = rocks.Length + numToSpawn; // size is sum of current + new
             int previousLength = rocks.Length;
 
+            // ArrayOfIntsObject ints = new ArrayOfIntsObject(newArraySize);
+            int[] ints = new int[newArraySize];
             GameObject[] newArray = new GameObject[newArraySize];
             // Copy rocks over from old array
             for(int i = 0; i < rocks.Length; i++)

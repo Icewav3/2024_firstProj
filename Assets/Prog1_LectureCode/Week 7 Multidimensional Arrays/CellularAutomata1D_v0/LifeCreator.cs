@@ -10,14 +10,27 @@ namespace Prog1_LectureCode.Week_7_Multidimensional_Arrays.CellularAutomata1D_v0
 		[SerializeField] private bool debug;
 		[SerializeField] private float delay;
 		[SerializeField] private SpriteRenderer sprite;
-		private GameObject[,] _grid;
+		private SpriteRenderer[,] _displayGrid;
 		private GameOfLife _board;
 		private float _nextUpdateTime;
 
 		private void Start()
 		{
 			_board = new GameOfLife(rows, cols);
-			_grid = new GameObject[rows, cols];
+
+			// Initialize the display grid with SpriteRenderer instances
+			_displayGrid = new SpriteRenderer[rows, cols];
+			for (int x = 0; x < cols; x++)
+			{
+				for (int y = 0; y < rows; y++)
+				{
+					Vector3 position = new Vector3(x * gridSize, y * gridSize, 0);
+					_displayGrid[x, y] = Instantiate(sprite, position, Quaternion.identity);
+				}
+			}
+			_board.ToggleCell(3,3);
+			_board.ToggleCell(4,3);
+			_board.ToggleCell(5,3);
 
 			if (debug)
 			{
@@ -29,7 +42,6 @@ namespace Prog1_LectureCode.Week_7_Multidimensional_Arrays.CellularAutomata1D_v0
 
 		private void Update()
 		{
-			//todo also need to create logic to update the value of the grid at current mouse position when click is detected
 			if (Input.GetMouseButtonDown(0))
 			{
 				Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -47,10 +59,17 @@ namespace Prog1_LectureCode.Week_7_Multidimensional_Arrays.CellularAutomata1D_v0
 				}
 			}
 
-			if (Time.time >= _nextUpdateTime)
+			if (!(Time.time >= _nextUpdateTime))
 			{
-				UpdateGrid();
-				_nextUpdateTime = Time.time + delay;
+				return;
+			}
+
+			_board.UpdateLife();
+			UpdateGrid();
+			_nextUpdateTime = Time.time + delay;
+			if (debug)
+			{
+				print(_board.DebugDisplayGrid());
 			}
 		}
 
@@ -60,15 +79,7 @@ namespace Prog1_LectureCode.Week_7_Multidimensional_Arrays.CellularAutomata1D_v0
 			{
 				for (int y = 0; y < rows; y++)
 				{
-					var tar = _grid[x, y];
-					if (tar != null)
-					{
-						Destroy(tar.gameObject);
-					}
-					Vector3 position = new Vector3(x * gridSize, y * gridSize, 0);
-					SpriteRenderer newSprite = Instantiate(sprite, position, Quaternion.identity);
-					newSprite.color = _board.Cells[x, y] == 1 ? Color.white : Color.black;
-					tar = newSprite.gameObject;
+					_displayGrid[x, y].color = _board.Cells[x, y] == 1 ? Color.white : Color.black;
 				}
 			}
 		}

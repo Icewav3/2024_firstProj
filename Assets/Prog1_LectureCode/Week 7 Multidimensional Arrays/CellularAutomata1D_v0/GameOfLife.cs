@@ -31,7 +31,11 @@ namespace Prog1_LectureCode.Week_7_Multidimensional_Arrays.CellularAutomata1D_v0
 			}
 		}
 
-		private void UpdateLife()
+		/// <summary>
+		/// Updates the life state of each cell in the grid
+		/// based on the number of live neighbors.
+		/// </summary>
+		public void UpdateLife()
 		{
 			int rows = Cells.GetLength(0);
 			int columns = Cells.GetLength(1);
@@ -42,13 +46,13 @@ namespace Prog1_LectureCode.Week_7_Multidimensional_Arrays.CellularAutomata1D_v0
 				for (int j = 0; j < columns; j++)
 				{
 					int liveNeighbors = 0;
+
 					for (int x = -1; x <= 1; x++)
 					{
 						for (int y = -1; y <= 1; y++)
 						{
 							if (x == 0 && y == 0)
 								continue; // skip the cell itself
-
 							int neighborRow = i + x;
 							int neighborCol = j + y;
 
@@ -59,12 +63,34 @@ namespace Prog1_LectureCode.Week_7_Multidimensional_Arrays.CellularAutomata1D_v0
 						}
 					}
 
-					tempArray[i, j] = liveNeighbors;
+					// Apply the rules of Conway's Game of Life
+					if (Cells[i, j] == 1)
+					{
+						// Cell is currently alive
+						if (liveNeighbors < 2 || liveNeighbors > 3)
+						{
+							tempArray[i, j] = 0; // Cell dies
+						}
+						else
+						{
+							tempArray[i, j] = 1; // Cell lives
+						}
+					}
+					else
+					{
+						// Cell is currently dead
+						if (liveNeighbors == 3)
+						{
+							tempArray[i, j] = 1; // Cell becomes alive
+						}
+						else
+						{
+							tempArray[i, j] = 0; // Cell remains dead
+						}
+					}
 				}
 			}
-
-			Cells = tempArray;
-			//todo create temp int array for the result then move it into _cells once we have calculated all new tiles
+			Cells = tempArray; // Update the grid
 		}
 
 		public string DebugDisplayGrid()
@@ -77,17 +103,21 @@ namespace Prog1_LectureCode.Week_7_Multidimensional_Arrays.CellularAutomata1D_v0
 					string cell = Cells[x, y] == 1 ? "O" : "-";
 					gridString.Append(cell + " ");
 				}
-
 				gridString.Append(Environment.NewLine);
 			}
-
 			return gridString.ToString();
 		}
 
 		public void ToggleCell(int x, int y)
 		{
-			int tar = Cells[x, y];
-			tar = tar != 0 ? 0 : 1;
+			if (Cells[x, y] == 1)
+			{
+				Cells[x, y] = 0;
+			}
+			else
+			{
+				Cells[x, y] = 1;
+			}
 		}
 	}
 }

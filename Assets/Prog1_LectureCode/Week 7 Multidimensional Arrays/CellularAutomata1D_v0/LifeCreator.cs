@@ -10,6 +10,7 @@ namespace Prog1_LectureCode.Week_7_Multidimensional_Arrays.CellularAutomata1D_v0
 		[SerializeField] private bool debug;
 		[SerializeField] private float delay;
 		[SerializeField] private SpriteRenderer sprite;
+		private float _timeScale;
 		private SpriteRenderer[,] _displayGrid;
 		private GameOfLife _board;
 		private float _nextUpdateTime;

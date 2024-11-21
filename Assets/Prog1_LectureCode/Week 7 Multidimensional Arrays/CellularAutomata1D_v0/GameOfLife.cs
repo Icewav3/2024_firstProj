@@ -14,13 +14,13 @@ namespace Prog1_LectureCode.Week_7_Multidimensional_Arrays.CellularAutomata1D_v0
 		public GameOfLife(int rows, int columns)
 		{
 			Cells = new int[rows, columns];
-			InitializeGrid();
+			ResetGrid();
 		}
 
 		/// <summary>
 		/// Initializes grid with 0 in all places
 		/// </summary>
-		private void InitializeGrid()
+		public void ResetGrid()
 		{
 			for (int i = 0; i < Cells.GetLength(0); i++)
 			{
@@ -108,6 +108,18 @@ namespace Prog1_LectureCode.Week_7_Multidimensional_Arrays.CellularAutomata1D_v0
 			return gridString.ToString();
 		}
 
+		public void RandomizeGrid()
+		{
+			var random = new System.Random();
+			for (int i = 0; i < Cells.GetLength(0); i++)
+			{
+				for (int j = 0; j < Cells.GetLength(1); j++)
+				{
+					Cells[i, j] = random.Next(2); // Randomly sets the cell to either 0 or 1
+				}
+			}
+		}
+		
 		public void ToggleCell(int x, int y)
 		{
 			if (Cells[x, y] == 1)

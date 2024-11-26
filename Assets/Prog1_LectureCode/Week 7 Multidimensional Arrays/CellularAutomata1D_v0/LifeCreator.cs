@@ -5,6 +5,8 @@ namespace Prog1_LectureCode.Week_7_Multidimensional_Arrays.CellularAutomata1D_v0
 {
 	public class LifeCreator : MonoBehaviour
 	{
+		[Header("Config")]
+		[SerializeField] private int randomRatio = 2;
 		[Header("GridSetup")]
 		[SerializeField] private int rows;
 		[SerializeField] private int cols;
@@ -12,8 +14,9 @@ namespace Prog1_LectureCode.Week_7_Multidimensional_Arrays.CellularAutomata1D_v0
 		[SerializeField] private bool debug;
 		[SerializeField] private float baseDelay;
 		[SerializeField] private SpriteRenderer sprite;
+		[Tooltip("RandomRatio is the ratio of ON cells to OFF cells.\nExample: 2 would mean it's half as likely to be ON as it is OFF")]
 
-		#region Private
+		#region Private variables
 
 		private float _delay; 
 		private float _timeScale;
@@ -41,19 +44,32 @@ namespace Prog1_LectureCode.Week_7_Multidimensional_Arrays.CellularAutomata1D_v0
 
 		private void Update()
 		{
-			if (Input.GetMouseButtonDown(0))
+			if (Input.GetMouseButton(0))
 			{
-				Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-				int x = Mathf.FloorToInt(mousePos.x / gridSize);
-				int y = Mathf.FloorToInt(mousePos.y / gridSize);
-
-				if (x >= 0 && x < cols && y >= 0 && y < rows)
+				Vector2Int v = GetMousePosition();
+				
+				if (v.x >= 0 && v.x < cols && v.y >= 0 && v.y < rows)
 				{
-					_board.ToggleCell(x, y);
+					_board.ToggleCell(v.x, v.y);
 
 					if (debug)
 					{
-						print($"Toggled cell at ({x}, {y})");
+						print($"Toggled cell ({v.x}, {v.y}) ON");
+					}
+				}
+			}
+
+			if (Input.GetMouseButton(1))
+			{
+				Vector2Int v = GetMousePosition();
+				
+				if (v.x >= 0 && v.x < cols && v.y >= 0 && v.y < rows)
+				{
+					_board.ToggleCell(v.x, v.y, false);
+
+					if (debug)
+					{
+						print($"Toggled cell ({v.x}, {v.y}) OFF");
 					}
 				}
 			}
@@ -67,6 +83,11 @@ namespace Prog1_LectureCode.Week_7_Multidimensional_Arrays.CellularAutomata1D_v0
 
 			UpdateVisual();
 			
+			if (debug)
+			{
+				print(_board.DebugDisplayGrid());
+			}
+			
 			if (_isPaused)
 			{
 				return;
@@ -74,10 +95,14 @@ namespace Prog1_LectureCode.Week_7_Multidimensional_Arrays.CellularAutomata1D_v0
 			
 			UpdateLife();
 			
-			if (debug)
-			{
-				print(_board.DebugDisplayGrid());
-			}
+		}
+
+		private Vector2Int GetMousePosition()
+		{
+			Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			int x = Mathf.FloorToInt(mousePos.x / gridSize);
+			int y = Mathf.FloorToInt(mousePos.y / gridSize);
+			return new Vector2Int(x, y);
 		}
 		
 		private void UpdateLife()
@@ -108,25 +133,38 @@ namespace Prog1_LectureCode.Week_7_Multidimensional_Arrays.CellularAutomata1D_v0
 			}
 		}
 
-		#region UI
+		#region UI Buttons
 
 		public void RandomReset()
 		{
-			_board.RandomizeGrid();
+			_board.RandomizeGrid(randomRatio);
 			UpdateVisual();
 		}
 		public void StarPreset()
 		{
 			_board.ResetGrid();
-			//hardcode star
-			_board.ToggleCell(3,3);
-			_board.ToggleCell(4,3);
-			_board.ToggleCell(5,3);
+			//hardcode flyer
+			_board.ToggleCell(22, 12);
+			_board.ToggleCell(22, 10);
+			_board.ToggleCell(26, 13);
+			_board.ToggleCell(23, 13);
+			_board.ToggleCell(24, 13);
+			_board.ToggleCell(25, 13);
+			_board.ToggleCell(26, 13);
+			_board.ToggleCell(26, 12);
+			_board.ToggleCell(26, 11);
+			_board.ToggleCell(25, 10);
+			_board.ToggleCell(26, 13);
 		}
 		
 		public void Reset()
 		{
 			_board.ResetGrid();
+		}
+
+		public void Step()
+		{
+			UpdateLife();
 		}
 		public void Pause()
 		{

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using UnityEngine;
+using Random = System.Random;
 
 namespace Prog1_LectureCode.Week_7_Multidimensional_Arrays.CellularAutomata1D_v0
 {
@@ -39,22 +40,22 @@ namespace Prog1_LectureCode.Week_7_Multidimensional_Arrays.CellularAutomata1D_v0
 		{
 			int rows = Cells.GetLength(0);
 			int columns = Cells.GetLength(1);
-			var tempArray = new int[rows, columns];
+			int[,] tempArray = new int[rows, columns];
 
-			for (int i = 0; i < rows; i++)
+			for (int cellRow = 0; cellRow < rows; cellRow++)
 			{
-				for (int j = 0; j < columns; j++)
+				for (int cellColumn = 0; cellColumn < columns; cellColumn++)
 				{
 					int liveNeighbors = 0;
 
-					for (int x = -1; x <= 1; x++)
+					for (int rowOffset = -1; rowOffset <= 1; rowOffset++)
 					{
-						for (int y = -1; y <= 1; y++)
+						for (int colOffset = -1; colOffset <= 1; colOffset++)
 						{
-							if (x == 0 && y == 0)
+							if (rowOffset == 0 && colOffset == 0)
 								continue; // skip the cell itself
-							int neighborRow = i + x;
-							int neighborCol = j + y;
+							int neighborRow = cellRow + rowOffset;
+							int neighborCol = cellColumn + colOffset;
 
 							if (neighborRow >= 0 && neighborRow < rows && neighborCol >= 0 && neighborCol < columns)
 							{
@@ -64,16 +65,16 @@ namespace Prog1_LectureCode.Week_7_Multidimensional_Arrays.CellularAutomata1D_v0
 					}
 
 					// Apply the rules of Conway's Game of Life
-					if (Cells[i, j] == 1)
+					if (Cells[cellRow, cellColumn] == 1)
 					{
 						// Cell is currently alive
 						if (liveNeighbors < 2 || liveNeighbors > 3)
 						{
-							tempArray[i, j] = 0; // Cell dies
+							tempArray[cellRow, cellColumn] = 0; // Cell dies
 						}
 						else
 						{
-							tempArray[i, j] = 1; // Cell lives
+							tempArray[cellRow, cellColumn] = 1; // Cell lives
 						}
 					}
 					else
@@ -81,11 +82,11 @@ namespace Prog1_LectureCode.Week_7_Multidimensional_Arrays.CellularAutomata1D_v0
 						// Cell is currently dead
 						if (liveNeighbors == 3)
 						{
-							tempArray[i, j] = 1; // Cell becomes alive
+							tempArray[cellRow, cellColumn] = 1; // Cell becomes alive
 						}
 						else
 						{
-							tempArray[i, j] = 0; // Cell remains dead
+							tempArray[cellRow, cellColumn] = 0; // Cell remains dead
 						}
 					}
 				}
@@ -108,28 +109,27 @@ namespace Prog1_LectureCode.Week_7_Multidimensional_Arrays.CellularAutomata1D_v0
 			return gridString.ToString();
 		}
 
-		public void RandomizeGrid()
+		public void RandomizeGrid(int ratio)
 		{
-			var random = new System.Random();
+			Random random = new(); // had to use system random cuz non monobehavoir
 			for (int i = 0; i < Cells.GetLength(0); i++)
 			{
 				for (int j = 0; j < Cells.GetLength(1); j++)
 				{
-					Cells[i, j] = random.Next(2); // Randomly sets the cell to either 0 or 1
+					//if value is equal to 1 cell on, if not cell off
+					Cells[i, j] = random.Next(ratio) == 1 ? 1 : 0; 
 				}
 			}
-		}
-		
-		public void ToggleCell(int x, int y)
+		} 
+		/// <summary>
+		/// Toggles the state of a cell at the specified coordinates.
+		/// </summary>
+		/// <param name="x">The x-coordinate of the cell.</param>
+		/// <param name="y">The y-coordinate of the cell.</param>
+		/// <param name="value">If true, sets the cell to alive; if false, sets the cell to dead. Default is true.</param>
+		public void ToggleCell(int x, int y, bool value = true)
 		{
-			if (Cells[x, y] == 1)
-			{
-				Cells[x, y] = 0;
-			}
-			else
-			{
-				Cells[x, y] = 1;
-			}
+			Cells[x, y] = value ? 1 : 0;
 		}
 	}
 }

@@ -54,13 +54,9 @@ namespace Prog1_LectureCode.Week_7_Multidimensional_Arrays.CellularAutomata1D_v0
 						{
 							if (rowOffset == 0 && colOffset == 0)
 								continue; // skip the cell itself
-							int neighborRow = cellRow + rowOffset;
-							int neighborCol = cellColumn + colOffset;
-
-							if (neighborRow >= 0 && neighborRow < rows && neighborCol >= 0 && neighborCol < columns)
-							{
-								liveNeighbors += Cells[neighborRow, neighborCol];
-							}
+							int neighborRow = (cellRow + rowOffset + rows) % rows;
+							int neighborCol = (cellColumn + colOffset + columns) % columns;
+							liveNeighbors += Cells[neighborRow, neighborCol];
 						}
 					}
 

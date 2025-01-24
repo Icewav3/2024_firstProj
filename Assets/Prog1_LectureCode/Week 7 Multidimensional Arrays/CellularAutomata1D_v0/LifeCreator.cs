@@ -6,6 +6,7 @@ namespace Prog1_LectureCode.Week_7_Multidimensional_Arrays.CellularAutomata1D_v0
 	public class LifeCreator : MonoBehaviour
 	{
 		[Header("Config")]
+		[Tooltip("RandomRatio is the ratio of ON cells to OFF cells.\nExample: 2 would mean it's half as likely to be ON as it is OFF")]
 		[SerializeField] private int randomRatio = 2;
 		[Header("GridSetup")]
 		[SerializeField] private int rows;
@@ -14,7 +15,6 @@ namespace Prog1_LectureCode.Week_7_Multidimensional_Arrays.CellularAutomata1D_v0
 		[SerializeField] private bool debug;
 		[SerializeField] private float baseDelay;
 		[SerializeField] private SpriteRenderer sprite;
-		[Tooltip("RandomRatio is the ratio of ON cells to OFF cells.\nExample: 2 would mean it's half as likely to be ON as it is OFF")]
 
 		#region Private variables
 
